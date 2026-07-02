@@ -1,5 +1,5 @@
 baseURL = "https://rominap22.github.io"
-title = "My Technical Brain Dump"
+title = "Romina Parimi"
 theme = "hextra"
 defaultContentLanguage = "en"
 
@@ -14,9 +14,36 @@ defaultContentLanguage = "en"
     codeFences = true
     guessSyntax = true
     lineNos = true
-    style = "dracula"
+    style = "monokai"
+
+[params.blog.list]
+  displayTags = true
 
 [[menu.main]]
   name = "Blog"
   pageRef = "/blog"
   weight = 1
+
+[[menu.main]]
+  name = "Engineering"
+  pageRef = "/categories/engineering"
+  weight = 2
+  parent = "Blog"
+
+[[menu.main]]
+  name = "Advertising"
+  pageRef = "/categories/advertising"
+  weight = 3
+  parent = "Blog"
+
+[[menu.main]]
+  name = "Research"
+  pageRef = "/categories/research"
+  weight = 4
+  parent = "Blog"
+
+[[menu.main]]
+  name = "About"
+  pageRef = "/about"
+  weight = 2
+

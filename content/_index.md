@@ -1,7 +1,25 @@
 ---
-title: "Welcome to My Digital Mind"
-type: homepage
+title: "Romina Parimi"
 ---
-# Hello, I'm a Technical Builder. 🚀
-Welcome to my personal home base. I am an engineer mapping out my continuous learning journey across **programming, cloud computing, neuroscience, philosophy, and advertising**.
-Read My Blog Logs
+
+<br>
+
+Solutions Architect at AWS. I design cloud infrastructure for semiconductor and AI silicon companies.
+
+This is where I write about what I'm building, learning, and thinking about across engineering, advertising, and research.
+
+### Featured Posts
+
+{{< cards >}}
+  {{< card link="/blog/my-first-post" title="Launching the Ecosystem" subtitle="Getting the site off the ground" image="images/nasa-Q1p7bh3SHj8-unsplash.jpg" >}}
+{{< /cards >}}
+
+---
+
+<div class="social-links">
+
+### Find me elsewhere
+
+<a href="https://github.com/rominap22" target="_blank">{{< icon "github" >}}</a> | <a href="https://linkedin.com/in/rominaparimi22" target="_blank">{{< icon "linkedin" >}}</a> | <a href="/resume.pdf" target="_blank">Resume</a>
+
+</div>

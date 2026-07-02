@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Romina Parimi – Blog Feed</title>
-    <link>http://localhost:1313/blog/</link>
-    <description>Recent content in Blog Feed on Romina Parimi</description>
+    <title>Romina Parimi – Devops</title>
+    <link>http://localhost:1313/tags/devops/</link>
+    <description>Recent content in Devops on Romina Parimi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 23 Jun 2026 00:00:00 +0000</lastBuildDate>
     
-	  <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="http://localhost:1313/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     
     
       

@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My Technical Brain Dump – Welcome to My Digital Mind</title>
+    <title>Romina Parimi – Romina Parimi</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content in Welcome to My Digital Mind on My Technical Brain Dump</description>
+    <description>Recent content on Romina Parimi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 23 Jun 2026 00:00:00 +0000</lastBuildDate>
@@ -23,7 +23,11 @@
       <description>
         
         
-        &lt;p&gt;Testing out my first official cross-disciplinary code post.&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&#34;http://localhost:1313/blog/my-first-post/nasa-Q1p7bh3SHj8-unsplash.jpg&#34; alt=&#34;Outer space&#34;  loading=&#34;lazy&#34; /&gt;
+&lt;em&gt;Photo by &lt;a
+    href=&#34;https://unsplash.com/photos/photo-of-outer-space-Q1p7bh3SHj8&#34;target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;NASA&lt;/a&gt; on &lt;a
+    href=&#34;https://unsplash.com&#34;target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Unsplash&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Testing out my first official cross-disciplinary code post.&lt;/p&gt;
 &lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
