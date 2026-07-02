@@ -1,0 +1,22 @@
+baseURL = "https://rominap22.github.io"
+title = "My Technical Brain Dump"
+theme = "hextra"
+defaultContentLanguage = "en"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    style = "dracula"
+
+[[menu.main]]
+  name = "Blog"
+  pageRef = "/blog"
+  weight = 1

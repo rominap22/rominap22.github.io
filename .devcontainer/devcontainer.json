@@ -1,0 +1,22 @@
+{
+  "name": "Hextra Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/devcontainers/features/hugo:1": {
+      "version": "latest",
+      "extended": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "koichisasada.vscode-hugo",
+        "redhat.vscode-yaml"
+      ]
+    }
+  },
+  "forwardPorts":[1313],
+  "postCreateCommand": "git submodule update --init --recursive"
+}
