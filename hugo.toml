@@ -25,24 +25,6 @@ defaultContentLanguage = "en"
   weight = 1
 
 [[menu.main]]
-  name = "Engineering"
-  pageRef = "/categories/engineering"
-  weight = 2
-  parent = "Blog"
-
-[[menu.main]]
-  name = "Advertising"
-  pageRef = "/categories/advertising"
-  weight = 3
-  parent = "Blog"
-
-[[menu.main]]
-  name = "Research"
-  pageRef = "/categories/research"
-  weight = 4
-  parent = "Blog"
-
-[[menu.main]]
   name = "About"
   pageRef = "/about"
   weight = 2
