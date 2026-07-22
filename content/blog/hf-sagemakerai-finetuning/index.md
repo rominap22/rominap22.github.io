@@ -5,22 +5,109 @@ tags: ["python", "machine-learning", "artificial-intelligence"]
 categories: ["Engineering"]
 ---
 
-# How I Fine-Tuned Llama 3.1 for Semiconductor Knowledge with QLoRA, Hugging Face, and Amazon SageMaker AI 
-
-
 ## Background
+include stack and dataset
 
-## What I Built
+## Prerequisites
+1. Go to huggingface.co/meta-llama/Llama-3.1-8B-Instruct, log in, and fill in the page's form to get access. Approval for Llama gated models is usually instant to a few hours.
+2. Go to Settings-->Access Tokens-->Create new token. Read permissions suffice, and store it somewhere safe.
+3. If you don't have a Domain yet: click Set up SageMaker Domain → choose Quick setup → it creates a domain + a default user profile + an IAM execution role for you automatically.
+4. Once the domain exists, click your user profile → Open Studio. This opens JupyterLab in the browser, where you'll run everything.
+5. Check AWS permissions in IAM for SageMakerFullAccess. In SageMaker-->Domains-->(your domain)-->(your user profile), note the Execution role name/ARN. Go to IAM-->Roles-->(that role).
+- Confirm/attach the managed policy AmazonSageMakerFullAccess (Quick setup usually already attaches this).
+- Add an inline policy granting bedrock:InvokeModel on *. This is not included by default, and you need it for the Bedrock Haiku/Opus calls. Inline policy JSON:
+  ```{
+    "Version": "2012-10-17",
+    "Statement": [{"Effect": "Allow", "Action": "bedrock:InvokeModel",
+  "Resource": "*"}]
+  }
+  ```
+6. AWS S3 bucket (optional, can skip). You don't strictly need to create one. The notebook calls session.default_bucket(), which auto-creates a default SageMaker bucket (sagemaker-<region>-<account-id>) the first time it runs. Only create your own bucket if you want a specific name.
+7. Go to SageMaker Studio JupyterLab and create a space.
+- Give it a name (e.g. qlora-semiconductor).
+- Choose an instance type for the space itself. This only needs to be small/cheap (e.g. ml.t3.medium) since this space just runs the notebook that submits the training job; the actual GPU work happens on the separate ml.g5.2xlarge training job instance.
+- Click Create space, then Run space (it may take a minute or two to start).
+- Once it's running, click Open JupyterLab.
 
-## Stack
+## Process
+The number of augmented examples is entirely determined by how many rows are in data/seed_qa.jsonl multiplied by 5, plus the originals. My augment function generates n=5 variants per seed. So, with my 20 seeds:
+```20 seeds × 5 variants = 100 new examples
+100 + 20 originals = 120 total```
 
-## Dataset
+Connects to SageMaker — gets your default S3 bucket and your IAM role
+Splits your augmented data — 90% goes to training, 10% held out for validation (the test_size=0.1), randomly but reproducibly (seed=42)
+Uploads both files to S3 — so the training job running on a separate EC2 instance can access them
 
-## Training
+The reason it uploads to S3 is that your training job runs on a different machine (the ml.g5.2xlarge), not in this notebook. S3 is the shared storage between the two.
+
+The idea is: you train on the 90% and use the 10% to check whether the model is actually learning or just memorizing. If your training loss keeps dropping but your validation loss starts going up, that's overfitting — the model has stopped generalizing and is just memorizing the training examples.
+
+The upload will look like this in S3:
+```s3://<your-default-bucket>/
+└── qlora-semiconductor/
+    └── data/
+        ├── train.jsonl
+        └── val.jsonl
+```
+The training job output (the merged model weights) will land in a separate prefix automatically created by SageMaker, something like:
+
+```s3://<your-default-bucket>/
+└── huggingface-pytorch-training-<timestamp>/
+    └── output/
+        └── model.tar.gz
+```
+- seed_qa.jsonl — gets augmented and used for training
+- eval.jsonl — never touched during training, only used at the end to score how well the fine-tuned model actually learned
+
+Quantization is just rounding numbers to use less storage.
+
+A neural network weight is normally stored as a 16-bit decimal number — something like 0.37291842. That's precise but takes 2 bytes of memory per number, and you have 8 billion of them.
+
+Quantization says: instead of storing the exact number, pick from a small menu of allowed values. With 4-bit you only have 16 options on that menu. So 0.37291842 might get rounded to the nearest option, say 0.375. Close enough, but now it only takes 0.5 bytes instead of 2.
+
+The tradeoff is you lose a tiny bit of accuracy from the rounding. NF4 minimizes that loss by placing the 16 menu options where neural network weights actually tend to cluster, rather than spacing them out evenly.
+
+The clever part of QLoRA is that it only quantizes the frozen base model to save memory. The LoRA adapters you're actually training stay in full 16-bit precision, so the learning still happens accurately. You're essentially borrowing the compressed base model as a reference while training a small precise layer on top of it.
+
+8B parameters at full precision (bf16), with 8 bits in a byte:
+
+8,000,000,000 parameters × 2 bytes (16-bit) = 16 GB
+8B parameters at NF4 (4-bit):
+
+8,000,000,000 parameters × 0.5 bytes (4-bit) = 4 GB
+But the real memory usage during training is higher than just the weights because you also need memory for:
+
+Activations (intermediate calculations during the forward pass)
+LoRA adapter weights (small, ~100 MB)
+Optimizer states (paged_adamw keeps these mostly off-GPU)
+The input batch
+In practice QLoRA on 8B lands around 8-10 GB total during training, which fits comfortably in the A10G's 24 GB with room to spare.
+
+That's the whole point of QLoRA — without it you'd need at least 16 GB just for the weights alone, plus more for training overhead, which would require a much more expensive instance.
+
+
+ESTIMATOR:
+You're telling SageMaker: "spin up this type of machine, put this Docker container on it, run this script, with these settings, and here's the data to use." When you call .fit() it actually submits that job and AWS does the rest — provisions the machine, downloads the model, runs the training, saves the output to S3, and shuts the machine down when it's done.
+
+You never SSH into the machine or manage it yourself. The estimator is just your way of describing what you want to happen.
+
+Second SageMaker endpoint for baseline comparison:
+- Base endpoint → model_id="meta-llama/Llama-3.1-8B-Instruct" → downloads from HF Hub → original Meta weights, never touched by your training job
+- Fine-tuned endpoint → model_data=estimator.model_data → loads from your S3 bucket → your QLoRA-merged weights
 
 ## Results
 
 ## Lessons Learned
+Check which Bedrock models are available in your region (e.g. Haiku 3.5 vs latest Haiku)
+
+Python versioning - have AI tool correct it
+(had to switch to py312, pytorch 2.6.0, "sagemaker<3" "transformers>=4.45.0" "huggingface_hub>=0.34.0,<1.0" for Hugging Face compatibility)
+
+The server-side timeout is still 60 seconds despite setting TS_DEFAULT_RESPONSE_TIMEOUT=600. This env var is not being picked up by this version of the HF DLC container — we've now confirmed it twice.
+
+The only reliable fix is to stop using the standard HF DLC and switch to the TGI (Text Generation Inference) container, which is purpose-built for this and has proper timeout handling. AND client-side (boto3) timeouts 
+
+Capacity for instance types in your specific region
 
 ## References
 [Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI](https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/)
