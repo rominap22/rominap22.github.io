@@ -5,9 +5,6 @@ tags: ["python", "machine-learning", "artificial-intelligence"]
 categories: ["Engineering"]
 ---
 
-## Background
-include stack and dataset
-
 ## Prerequisites
 1. Go to huggingface.co/meta-llama/Llama-3.1-8B-Instruct, log in, and fill in the page's form to get access. Approval for Llama gated models is usually instant to a few hours.
 2. Go to Settings-->Access Tokens-->Create new token. Read permissions suffice, and store it somewhere safe.
@@ -16,7 +13,8 @@ include stack and dataset
 5. Check AWS permissions in IAM for SageMakerFullAccess. In SageMaker-->Domains-->(your domain)-->(your user profile), note the Execution role name/ARN. Go to IAM-->Roles-->(that role).
 - Confirm/attach the managed policy AmazonSageMakerFullAccess (Quick setup usually already attaches this).
 - Add an inline policy granting bedrock:InvokeModel on *. This is not included by default, and you need it for the Bedrock Haiku/Opus calls. Inline policy JSON:
-  ```{
+  ```
+  {
     "Version": "2012-10-17",
     "Statement": [{"Effect": "Allow", "Action": "bedrock:InvokeModel",
   "Resource": "*"}]
