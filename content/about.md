@@ -2,7 +2,7 @@
 title: About
 ---
 <div style="text-align: center; margin-top: -1rem; margin-bottom: 1.5rem;">
-<img src="/rparimibadge.jpg" alt="Romina Parimi" style="width: 150px; height: 150px; border-radius: 50%; object-fit: contain; background-color: #000; border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(255,255,255,0.3), 0 0 30px rgba(255,255,255,0.1), inset 0 -2px 5px rgba(255,255,255,0.1);" />
+<img src="/romina-yaps/rparimibadge.jpg" alt="Romina Parimi" style="width: 150px; height: 150px; border-radius: 50%; object-fit: contain; background-color: #000; border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(255,255,255,0.3), 0 0 30px rgba(255,255,255,0.1), inset 0 -2px 5px rgba(255,255,255,0.1);" />
 </div>
 
 I'm a Solutions Architect at AWS focused on semiconductor and AI silicon companies like Texas Instruments, Broadcom, and Silicon Labs. I work closely with their engineering teams to scope and design cloud infrastructure for EDA, HPC, and AI/ML workloads.

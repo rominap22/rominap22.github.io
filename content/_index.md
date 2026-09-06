@@ -20,7 +20,7 @@ This is where I write about what I'm building, learning, and thinking about acro
 
 ### Find me elsewhere
 
-<a href="https://github.com/rominap22" target="_blank">{{< icon "github" >}}</a> | <a href="https://linkedin.com/in/rominaparimi22" target="_blank">{{< icon "linkedin" >}}</a> | <a href="/resume.pdf" target="_blank">Resume</a>
+<a href="https://github.com/rominap22" target="_blank">{{< icon "github" >}}</a> | <a href="https://linkedin.com/in/rominaparimi22" target="_blank">{{< icon "linkedin" >}}</a> | <a href="/romina-yaps/resume.pdf" target="_blank">Resume</a>
 
 </div>
 
