@@ -11,7 +11,7 @@ This is where I write about what I'm building, learning, and thinking about acro
 ### Featured Posts
 
 {{< cards >}}
-  {{< card link="/blog/my-first-post" title="Launching the Ecosystem" subtitle="Getting the site off the ground" image="images/nasa-Q1p7bh3SHj8-unsplash.jpg" >}}
+  {{< card link="/blog/hf-sagemakerai-finetuning" title="Fine-Tuning Llama 3.1 with QLoRA, Hugging Face, and SageMaker AI" subtitle="Domain-specific LLM fine-tuning on AWS" image="blog/hf-sagemakerai-finetuning/fine-tuning-hf-sm-qlora.jpg" >}}
 {{< /cards >}}
 
 ---

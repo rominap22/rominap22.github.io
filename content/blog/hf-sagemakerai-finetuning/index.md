@@ -3,6 +3,7 @@ title: "How I Fine-Tuned Llama 3.1 for Semiconductor Knowledge with QLoRA, Huggi
 date: 2026-07-18
 tags: ["python", "machine-learning", "artificial-intelligence"]
 categories: ["Engineering"]
+image: "fine-tuning-hf-sm-qlora.jpg"
 ---
 
 ## Prerequisites
